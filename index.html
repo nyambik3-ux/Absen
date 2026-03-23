@@ -3,49 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Attendance FaceID</title>
+    <title>Sistem Absensi SPPG Pelem 5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
     <script defer src="script.js"></script>
     <style>
         #video { transform: scaleX(-1); border-radius: 1.5rem; }
-        .scan-line { height: 4px; background: #3b82f6; position: absolute; width: 100%; top: 0; animation: scan 2s linear infinite; opacity: 0.7; }
+        .scan-line { height: 4px; background: #3b82f6; position: absolute; width: 100%; top: 0; animation: scan 2s linear infinite; opacity: 0.7; z-index: 10; }
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
     </style>
 </head>
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-4">
     <div class="max-w-md w-full space-y-4">
-        <div class="flex justify-between items-end border-b border-slate-700 pb-2">
-            <h1 class="text-xl font-black text-blue-500 uppercase tracking-tighter">Smart Office AI</h1>
-            <p id="clock" class="text-xs font-mono text-slate-400"></p>
+        <div class="text-center border-b border-slate-700 pb-4">
+            <h1 class="text-2xl font-black text-blue-500 leading-tight">SISTEM ABSENSI<br>SPPG PELEM 5</h1>
+            <p id="clock" class="text-sm font-mono text-slate-400 mt-2"></p>
         </div>
 
-        <div class="relative bg-slate-800 rounded-[2rem] border-4 border-slate-700 overflow-hidden shadow-2xl">
-            <video id="video" autoplay muted playsinline class="w-full aspect-square object-cover bg-black"></video>
+        <div class="relative bg-slate-800 rounded-[2rem] border-4 border-slate-700 overflow-hidden shadow-2xl aspect-square">
+            <video id="video" autoplay muted playsinline class="w-full h-full object-cover bg-black"></video>
             <div id="scanner" class="scan-line hidden"></div>
-            <div id="loading" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center">
+            <div id="loading" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center z-20">
                 <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                <p class="mt-4 text-[10px] tracking-[0.3em]">INITIALIZING AI...</p>
+                <p class="mt-4 text-[10px] tracking-[0.3em] font-bold">MEMUAT SISTEM AI...</p>
             </div>
         </div>
 
-        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg text-center">
-            <p id="status" class="text-sm font-medium text-blue-300">Mempersiapkan Kamera...</p>
-            <p id="stat-info" class="text-[10px] text-slate-500 mt-1 italic">Periode 14 hari: -- Masuk</p>
+        <div class="grid grid-cols-1 gap-2">
+            <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center">
+                <p id="status" class="text-sm font-bold text-blue-300">Menginisialisasi Kamera...</p>
+                <p id="user-display" class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Mencari Wajah...</p>
+            </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-            <button onclick="prosesAbsen('Datang')" id="btn-datang" class="bg-emerald-600 hover:bg-emerald-700 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-emerald-900/20 transition-all active:scale-95">ABSEN DATANG</button>
-            <button onclick="prosesAbsen('Pulang')" id="btn-pulang" class="bg-rose-600 hover:bg-rose-700 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-rose-900/20 transition-all active:scale-95">ABSEN PULANG</button>
+            <button onclick="prosesAbsen('Datang')" class="bg-emerald-600 hover:bg-emerald-700 py-4 rounded-2xl font-bold text-sm shadow-lg active:scale-95 transition-all">ABSEN DATANG</button>
+            <button onclick="prosesAbsen('Pulang')" class="bg-rose-600 hover:bg-rose-700 py-4 rounded-2xl font-bold text-sm shadow-lg active:scale-95 transition-all">ABSEN PULANG</button>
         </div>
 
         <details class="bg-slate-800/50 rounded-xl border border-slate-700 overflow-hidden">
-            <summary class="p-3 text-xs font-bold text-slate-400 cursor-pointer hover:bg-slate-700/50 uppercase tracking-widest">Menu Admin / Daftar Baru</summary>
-            <div class="p-4 space-y-3">
-                <input type="text" id="reg-name" placeholder="Nama Lengkap Karyawan" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm outline-none focus:border-blue-500">
-                <button onclick="registerFace()" class="w-full bg-blue-600 py-3 rounded-lg font-bold text-xs">DAFTARKAN WAJAH KE DATABASE</button>
+            <summary class="p-3 text-[10px] font-bold text-slate-500 cursor-pointer hover:bg-slate-700/50 uppercase tracking-[0.2em] text-center">Registrasi Karyawan Baru</summary>
+            <div class="p-4 space-y-3 bg-slate-800">
+                <input type="text" id="reg-name" placeholder="Nama Lengkap" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm outline-none focus:border-blue-500">
+                <button onclick="registerFace()" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold text-xs transition-colors">SIMPAN WAJAH KE DATABASE</button>
             </div>
         </details>
+
+        <div id="log-list" class="text-[10px] text-slate-500 font-mono space-y-1 px-2"></div>
     </div>
 </body>
 </html>
