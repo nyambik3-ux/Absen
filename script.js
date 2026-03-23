@@ -1,4 +1,4 @@
-const URL_GAS = "https://script.google.com/macros/s/AKfycbz1ZWd53vUvNvoZDzn7swrQDzkzw-RLO4TxUilQAQ4-3r1slJ9wbc-VL4MYXJ_ZfFaOKQ/exec";
+const URL_GAS = "https://script.google.com/macros/s/AKfycbw3hMSe2LfkBJE4QKpFwZAwZNiYZplMxBWxZR8SVo8NDDQjRWw8LeBXqJUK29fPVmZIAg/exec";
 const MODEL_URL = 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/';
 
 const video = document.getElementById('video');
