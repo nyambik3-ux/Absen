@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Absensi v2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="script.js"></script>
+    <style>
+        #video { transform: scaleX(-1); border-radius: 1rem; }
+        .scan-line { height: 3px; background: #3b82f6; position: absolute; width: 100%; top: 0; animation: scan 2s linear infinite; }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen p-4 flex flex-col items-center">
+    <div class="max-w-md w-full space-y-4">
+        <h1 class="text-2xl font-bold text-center text-blue-400 tracking-tighter">FACE-ID SYSTEM</h1>
+
+        <div class="relative bg-slate-800 rounded-2xl border-4 border-slate-700 overflow-hidden shadow-2xl aspect-video">
+            <video id="video" autoplay muted playsinline class="w-full h-full object-cover"></video>
+            <div id="scanner" class="scan-line hidden"></div>
+            <div id="loading" class="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center">
+                <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <p class="mt-2 text-[10px] font-mono uppercase">Memuat AI...</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+            <label class="text-[10px] font-bold text-slate-500 uppercase">Pendaftaran Baru</label>
+            <div class="flex gap-2 mt-1">
+                <input type="text" id="reg-name" placeholder="Nama Anda" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500">
+                <button onclick="registerFace()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm font-bold transition">DAFTAR</button>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+            <p id="status" class="text-center text-sm font-mono text-blue-300 italic mb-3">Inisialisasi...</p>
+            <div id="log-list" class="space-y-2 max-h-32 overflow-y-auto"></div>
+        </div>
+    </div>
+</body>
+</html>
